@@ -1,79 +1,173 @@
-# 🔐 Decentralized Identity (DID) Authentication System using Blockchain
+# 🔐 Decentralized Identity (DID) Authentication System  
+### Blockchain + AI-Based Secure Identity Verification Platform  
 
-A secure wallet-based identity registration, verification, and AI-powered fraud detection platform.
-
----
-
-## 📌 Project Overview
-
-This project is developed as a **Final Year Internship Project** under **IBM internship guidance**.
-
-The system combines:
-
-- **Blockchain-based Decentralized Identity (DID)**
-- **MetaMask wallet authentication**
-- **Solidity Smart Contract integration**
-- **Node.js backend APIs**
-- **React.js frontend**
-- **Machine Learning-based fraud detection**
-
-The main objective is to provide a **secure and privacy-preserving identity authentication system** where users can register and verify their DID while the AI layer helps detect suspicious access attempts.
+A wallet-based decentralized identity system enabling secure, passwordless authentication using **Blockchain (Solidity)** and enhanced with **AI-powered fraud detection**.
 
 ---
 
-## 🚀 Features
+## 📌 Overview  
 
-### ✅ Implemented Features
-- MetaMask wallet connection
-- Wallet-based authentication
-- DID registration
-- DID verification / fetch by wallet address
-- Smart contract deployment using Solidity
-- Backend API integration with Express.js
-- Machine Learning fraud detection service
-- Modern React-based frontend UI
+This project is developed as part of an **IBM Final Year Internship Program**.
 
-### 🔄 Planned / Enhancement Features
-- On-chain DID storage and verification improvements
-- AI risk scoring dashboard
-- Identity fraud analytics panel
-- Role-based secure access flow
-- Cloud deployment support
+It provides a **privacy-first identity solution** where users authenticate via their **crypto wallet (MetaMask)** instead of traditional credentials.
 
 ---
 
-## 🏗️ Tech Stack
-
-### Frontend
-- React.js
-- CSS3
-- Ethers.js
-
-### Backend
-- Node.js
-- Express.js
-
-### Blockchain
-- Solidity
-- Remix IDE
-- MetaMask
-
-### Machine Learning
-- Python
-- Flask
-- Pandas
-- Scikit-learn
-- Joblib
+## 🔗 Core Idea  
+- Replace centralized identity systems  
+- Enable user-owned identity (DID)  
+- Detect suspicious behavior using Machine Learning  
 
 ---
 
-## 📂 Project Structure
+## 🚀 Features  
 
-```bash
+### ✅ Implemented  
+- MetaMask wallet connection  
+- Wallet-based authentication  
+- DID registration (linked to wallet address)  
+- DID verification via smart contracts  
+- Backend API integration (Node.js + Express)  
+- Machine Learning fraud detection module  
+- Modern React-based UI  
+- Modular full-stack architecture  
+
+### 🔄 Planned Enhancements  
+- On-chain DID storage improvements  
+- AI risk scoring dashboard  
+- Identity fraud analytics panel  
+- Role-based access control (RBAC)  
+- Cloud deployment (AWS / GCP)  
+
+---
+
+## 🏗️ System Architecture  
+
+The system follows a **modular, multi-layered architecture** integrating Blockchain, Backend APIs, and Machine Learning services.
+
+### 🔹 High-Level Architecture  
+
+```text
+        ┌──────────────────────────────┐
+        │        Frontend (React)      │
+        │  - MetaMask + Ethers.js      │
+        └──────────────┬───────────────┘
+                       │
+                       ▼
+        ┌──────────────────────────────┐
+        │     Backend (Node.js)        │
+        │  - REST APIs                 │
+        └──────────────┬───────────────┘
+                       │
+         ┌─────────────┴─────────────┐
+         ▼                           ▼
+┌───────────────────┐     ┌──────────────────────┐
+│ Blockchain Layer  │     │   ML Fraud Service   │
+│  (Solidity)       │     │   (Python + Flask)   │
+│ - Smart Contract  │     │ - Fraud Detection    │
+│ - DID Storage     │     │ - Risk Analysis      │
+└───────────────────┘     └──────────────────────┘
+
+🔹 Component Breakdown
+
+🖥️ Frontend (React.js)
+Handles UI and user interaction
+Integrates MetaMask wallet authentication
+Uses Ethers.js to interact with blockchain
+
+⚙️ Backend (Node.js + Express)
+Acts as core orchestration layer
+Handles API requests and validation
+Communicates with blockchain and ML service
+
+🔗 Blockchain (Solidity)
+Stores and verifies Decentralized Identity (DID)
+Executes secure smart contract logic
+Ensures tamper-proof identity system
+
+🧠 Machine Learning (Python + Flask)
+Detects suspicious authentication patterns
+Assigns fraud risk scores
+
+🔄 Data Flow
+User connects wallet via MetaMask
+Frontend sends request to backend
+Backend verifies identity via smart contract
+ML service evaluates fraud risk
+Backend returns response
+Frontend displays result
+
+🧠 AI Fraud Detection
+Built using Scikit-learn
+Detects suspicious login patterns
+Extendable with:
+Behavioral analysis
+Geo-location anomaly detection
+Frequency-based attack detection
+
+
+🛠️ Tech Stack
+
+Frontend
+React.js
+CSS3
+Ethers.js
+
+Backend
+Node.js
+Express.js
+
+Blockchain
+Solidity
+Remix IDE
+MetaMask
+
+Machine Learning
+Python
+Flask
+Pandas
+Scikit-learn
+Joblib
+
+
+📂 Project Structure
 DID_Auth_System/
-│
-├── backend/         # Node.js + Express backend APIs
-├── blockchain/      # Solidity smart contract files
-├── frontend/        # React frontend application
-├── ml/              # Machine Learning fraud detection module
+├── backend/
+├── blockchain/
+├── frontend/
+├── ml/
 └── README.md
+
+
+📊 Performance & Metrics (Update with real values)
+🎯 Fraud detection accuracy: ~85–95%
+⚡ API response time: ~100–300 ms
+🔐 Reduced unauthorized access attempts by ~30–50%
+
+
+⚙️ Setup Instructions
+
+1️⃣ Clone Repository
+git clone https://github.com/your-username/DID-Auth-System.git
+cd DID-Auth-System
+
+2️⃣ Backend Setup
+cd backend
+npm install
+npm start
+
+3️⃣ Frontend Setup
+cd frontend
+npm install
+npm start
+
+4️⃣ ML Service Setup
+cd ml
+pip install -r requirements.txt
+python app.py
+
+5️⃣ Blockchain Setup
+Open Remix IDE
+Deploy smart contract
+Connect MetaMask
+Update contract address
