@@ -1,64 +1,33 @@
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 import joblib
 
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+print("Loading dataset...")
+data = pd.read_csv("creditcard.csv")
 
-# ------------------------------
-# LOAD DATASET
-# ------------------------------
-df = pd.read_csv("fraud_dataset.csv")
+# Features & label
+X = data.drop(["Class", "Time"], axis=1)
+y = data["Class"]
 
-print("📌 Dataset Preview:")
-print(df.head())
-
-print("\n📌 Dataset Shape:", df.shape)
-print("\n📌 Dataset Columns:", df.columns.tolist())
-
-# ------------------------------
-# FEATURES & TARGET
-# ------------------------------
-X = df.drop("label", axis=1)
-y = df["label"]
-
-# ------------------------------
-# TRAIN-TEST SPLIT
-# ------------------------------
+print("Splitting dataset...")
+# Split
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-# ------------------------------
-# RANDOM FOREST MODEL
-# ------------------------------
-model = RandomForestClassifier(
-    n_estimators=100,
-    random_state=42
-)
-
+print("Training model...")
+# Train model (use n_estimators=10 and max_depth=5 to train quickly on the large dataset)
+model = RandomForestClassifier(n_estimators=10, max_depth=5, random_state=42, n_jobs=-1)
 model.fit(X_train, y_train)
 
-# ------------------------------
-# PREDICTIONS
-# ------------------------------
+print("Evaluating...")
+# Evaluate
 y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
 
-# ------------------------------
-# EVALUATION
-# ------------------------------
-accuracy = accuracy_score(y_test, y_pred)
-
-print("\n✅ Model Accuracy:", accuracy)
-print("\n📊 Classification Report:")
-print(classification_report(y_test, y_pred))
-
-print("\n📉 Confusion Matrix:")
-print(confusion_matrix(y_test, y_pred))
-
-# ------------------------------
-# SAVE MODEL
-# ------------------------------
+print("Saving model...")
+# Save model
 joblib.dump(model, "fraud_model.pkl")
-
-print("\n💾 Random Forest model saved as fraud_model.pkl")
+print("Model saved successfully ✅")

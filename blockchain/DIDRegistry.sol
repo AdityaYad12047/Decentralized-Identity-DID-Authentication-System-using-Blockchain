@@ -9,8 +9,8 @@ contract DIDRegistry {
 
     mapping(address => Identity) public identities;
 
-    function registerDID(string memory _did) public {
-        identities[msg.sender] = Identity(_did, msg.sender);
+    function registerDID(address _user, string memory _did) public {
+        identities[_user] = Identity(_did, _user);
     }
 
     function getDID(address _user) public view returns (string memory, address) {

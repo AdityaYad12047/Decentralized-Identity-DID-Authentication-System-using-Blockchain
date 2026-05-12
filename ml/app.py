@@ -1,105 +1,56 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import joblib
-import numpy as np
-import traceback
+import pandas as pd
+from pathlib import Path
 
 app = Flask(__name__)
+CORS(app)
 
-# ------------------------------
-# LOAD MODEL
-# ------------------------------
-try:
-    model = joblib.load("fraud_model.pkl")
-    print("✅ Random Forest model loaded successfully")
-    print("📌 Model Type:", type(model))
-except Exception as e:
-    print("❌ Failed to load model:", str(e))
-    model = None
+# Load trained model
+BASE_DIR = Path(__file__).resolve().parent
+model = joblib.load(BASE_DIR / "fraud_model.pkl")
 
-# ------------------------------
-# HOME ROUTE
-# ------------------------------
-@app.route("/", methods=["GET"])
-def home():
-    return jsonify({
-        "success": True,
-        "message": "AI Fraud Detection ML Service Running 🚀",
-        "model": "Random Forest Classifier"
-    })
+REQUIRED_FEATURES = [
+    f"V{i}" for i in range(1, 29)
+] + ["Amount"]
 
-# ------------------------------
-# HEALTH ROUTE
-# ------------------------------
+
+
 @app.route("/health", methods=["GET"])
 def health():
-    return jsonify({
-        "success": True,
-        "model_loaded": model is not None,
-        "model_type": str(type(model))
-    })
+    return jsonify({"status": "online", "service": "ml-fraud-detection"})
 
-# ------------------------------
-# PREDICT ROUTE
-# ------------------------------
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        if model is None:
+        data = request.get_json(silent=True) or {}
+        missing = [feature for feature in REQUIRED_FEATURES if feature not in data]
+
+        if missing:
             return jsonify({
-                "success": False,
-                "error": "Model not loaded"
-            }), 500
+                "error": "Missing required feature(s)",
+                "missing": missing
+            }), 400
 
-        data = request.get_json(force=True)
+        features = pd.DataFrame(
+            [[float(data[feature]) for feature in REQUIRED_FEATURES]],
+            columns=REQUIRED_FEATURES
+        )
 
-        print("📩 Incoming Request Data:", data)
-
-        features = np.array([[
-            float(data.get("login_attempts", 0)),
-            float(data.get("failed_attempts", 0)),
-            float(data.get("request_frequency", 0)),
-            float(data.get("odd_hour_access", 0)),
-            float(data.get("new_device", 0)),
-            float(data.get("location_change", 0)),
-            float(data.get("multiple_wallet_switches", 0))
-        ]])
-
-        print("📊 Features Sent to Model:", features)
-
-        prediction = int(model.predict(features)[0])
-
-        # Safe probability handling
-        try:
-            probability = model.predict_proba(features)[0].tolist()
-        except Exception as prob_error:
-            print("⚠️ predict_proba failed:", str(prob_error))
-            probability = []
+        prediction = model.predict(features)[0]
+        probability = model.predict_proba(features)[0].tolist()
 
         result = "Fraudulent / Suspicious" if prediction == 1 else "Legitimate"
 
-        response_data = {
-            "success": True,
-            "prediction": prediction,
+        return jsonify({
+            "prediction": int(prediction),
             "result": result,
-            "probability": probability,
-            "model_used": "Random Forest"
-        }
-
-        print("✅ Prediction Response:", response_data)
-
-        return jsonify(response_data)
+            "probability": probability
+        })
 
     except Exception as e:
-        print("❌ Prediction Error:")
-        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
 
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
-# ------------------------------
-# START APP
-# ------------------------------
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
