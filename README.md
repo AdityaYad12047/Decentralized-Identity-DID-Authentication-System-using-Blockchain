@@ -4,7 +4,7 @@
 
 <br/>
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&weight=700&size=28&duration=2400&pause=800&color=38BDF8&center=true&vCenter=true&multiline=true&width=1300&height=120&lines=Decentralized+Identity+Infrastructure;Blockchain+Authentication+%2B+AI+Fraud+Detection;Real-Time+Risk+Scoring+Architecture;Ethereum+Smart+Contract+Verification" />
+<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&weight=700&size=28&duration=2400&pause=800&color=38BDF8&center=true&vCenter=true&multiline=true&width=1300&height=150&lines=Decentralized+Identity+Infrastructure;Blockchain+Authentication+%2B+AI+Fraud+Detection;Real-Time+Risk+Scoring+Architecture;Ethereum+Smart+Contract+Verification" />
 
 <br/><br/>
 
